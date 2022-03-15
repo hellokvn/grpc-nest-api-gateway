@@ -2,7 +2,7 @@
   "name": "grpc-nest-api-gateway",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Kevin Vogel",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
