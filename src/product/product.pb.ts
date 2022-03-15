@@ -34,6 +34,7 @@ export interface CreateRequest {
 export interface CreateResponse {
   status: number;
   error: string[];
+  id: number;
 }
 
 export const PRODUCT_PACKAGE_NAME = 'product';
