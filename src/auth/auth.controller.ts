@@ -1,26 +1,26 @@
-import { Body, Controller, Get, Inject, OnModuleInit, Post, Put } from '@nestjs/common';
+import { Body, Controller, Inject, OnModuleInit, Post, Put } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { AuthServiceClient, RegisterResponse, RegisterRequest, AUTH_SERVICE_NAME, LoginRequest, LoginResponse } from './auth.pb';
 
 @Controller('auth')
 export class AuthController implements OnModuleInit {
-  private service: AuthServiceClient;
+  private svc: AuthServiceClient;
 
   @Inject(AUTH_SERVICE_NAME)
   private readonly client: ClientGrpc;
 
   public onModuleInit(): void {
-    this.service = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
+    this.svc = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
   @Post('register')
   private async register(@Body() body: RegisterRequest): Promise<Observable<RegisterResponse>> {
-    return this.service.register(body);
+    return this.svc.register(body);
   }
 
   @Put('login')
   private async login(@Body() body: LoginRequest): Promise<Observable<LoginResponse>> {
-    return this.service.login(body);
+    return this.svc.login(body);
   }
 }

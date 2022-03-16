@@ -5,16 +5,16 @@ import { AuthServiceClient, AUTH_SERVICE_NAME, ValidateResponse } from './auth.p
 
 @Injectable()
 export class AuthService {
-  private service: AuthServiceClient;
+  private svc: AuthServiceClient;
 
   @Inject(AUTH_SERVICE_NAME)
   private readonly client: ClientGrpc;
 
   public onModuleInit(): void {
-    this.service = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
+    this.svc = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
   public async validate(token: string): Promise<ValidateResponse> {
-    return firstValueFrom(this.service.validateToken({ token }));
+    return firstValueFrom(this.svc.validateToken({ token }));
   }
 }
