@@ -6,21 +6,16 @@ import { Observable } from 'rxjs';
 
 export const protobufPackage = 'order';
 
-export interface OrderData {
-  id: number;
-  price: number;
-  userId: number;
-}
-
 export interface CreateOrderRequest {
   productId: number;
   quantity: number;
+  userId: number;
 }
 
 export interface CreateOrderResponse {
   status: number;
   error: string[];
-  data: OrderData | undefined;
+  id: number;
 }
 
 export const ORDER_PACKAGE_NAME = 'order';
