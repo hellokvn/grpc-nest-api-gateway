@@ -21,7 +21,7 @@ export class OrderController implements OnModuleInit {
   private async createOrder(@Req() req: Request): Promise<Observable<CreateOrderResponse>> {
     const body: CreateOrderRequest = req.body;
 
-    body.userId = (req as any).userId;
+    body.userId = <number>req.user;
 
     return this.svc.createOrder(body);
   }
