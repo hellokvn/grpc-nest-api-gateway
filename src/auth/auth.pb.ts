@@ -44,7 +44,7 @@ export interface AuthServiceClient {
 
   login(request: LoginRequest): Observable<LoginResponse>;
 
-  validateToken(request: ValidateRequest): Observable<ValidateResponse>;
+  validate(request: ValidateRequest): Observable<ValidateResponse>;
 }
 
 export interface AuthServiceController {
@@ -52,12 +52,12 @@ export interface AuthServiceController {
 
   login(request: LoginRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
 
-  validateToken(request: ValidateRequest): Promise<ValidateResponse> | Observable<ValidateResponse> | ValidateResponse;
+  validate(request: ValidateRequest): Promise<ValidateResponse> | Observable<ValidateResponse> | ValidateResponse;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['register', 'login', 'validateToken'];
+    const grpcMethods: string[] = ['register', 'login', 'validate'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod('AuthService', method)(constructor.prototype[method], method, descriptor);

@@ -6,6 +6,19 @@ import { Observable } from 'rxjs';
 
 export const protobufPackage = 'product';
 
+export interface CreateProductRequest {
+  name: string;
+  sku: string;
+  stock: number;
+  price: number;
+}
+
+export interface CreateProductResponse {
+  status: number;
+  error: string[];
+  id: number;
+}
+
 export interface FindOneData {
   id: number;
   name: string;
@@ -24,38 +37,40 @@ export interface FindOneResponse {
   data: FindOneData | undefined;
 }
 
-export interface CreateProductRequest {
-  name: string;
-  sku: string;
-  stock: number;
-  price: number;
+export interface DecreaseStockRequest {
+  id: number;
 }
 
-export interface CreateProductResponse {
+export interface DecreaseStockResponse {
   status: number;
   error: string[];
-  id: number;
 }
 
 export const PRODUCT_PACKAGE_NAME = 'product';
 
 export interface ProductServiceClient {
+  createProduct(request: CreateProductRequest): Observable<CreateProductResponse>;
+
   findOne(request: FindOneRequest): Observable<FindOneResponse>;
 
-  createProduct(request: CreateProductRequest): Observable<CreateProductResponse>;
+  decreaseStock(request: DecreaseStockRequest): Observable<DecreaseStockResponse>;
 }
 
 export interface ProductServiceController {
-  findOne(request: FindOneRequest): Promise<FindOneResponse> | Observable<FindOneResponse> | FindOneResponse;
-
   createProduct(
     request: CreateProductRequest,
   ): Promise<CreateProductResponse> | Observable<CreateProductResponse> | CreateProductResponse;
+
+  findOne(request: FindOneRequest): Promise<FindOneResponse> | Observable<FindOneResponse> | FindOneResponse;
+
+  decreaseStock(
+    request: DecreaseStockRequest,
+  ): Promise<DecreaseStockResponse> | Observable<DecreaseStockResponse> | DecreaseStockResponse;
 }
 
 export function ProductServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['findOne', 'createProduct'];
+    const grpcMethods: string[] = ['createProduct', 'findOne', 'decreaseStock'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod('ProductService', method)(constructor.prototype[method], method, descriptor);
